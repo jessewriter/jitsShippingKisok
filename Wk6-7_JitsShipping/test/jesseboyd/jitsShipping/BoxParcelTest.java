@@ -2,6 +2,8 @@ package jesseboyd.jitsShipping;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,20 +11,22 @@ import jesseboyd.jitsShipping.deliveryMethods.Air;
 
 public class BoxParcelTest {
 
-	private Parcel boxParcel;
+	private BoxParcel boxParcel;
+
+	
+	private List<Parcel> parcels;
+	// 2 plain, 3 weatherproof, 4 fireproof
+	
 
 	@Before
 	public void setUp() throws Exception {
-		UnitedStatesAddress origAddress = new UnitedStatesAddress("123", "main street", "Portland", "Oregon", "97230");
-		UnitedStatesAddress destAddress = new UnitedStatesAddress("456", "elm street", "Bloomington", "Illinois", "65060");
-		BoxDimmensions boxDim = new BoxDimmensions(10,10, 10);
-		boxParcel = new BoxParcel(new Air(),
-				origAddress, destAddress, 2l, boxDim );
+		parcels = DemoParcelsForTesting.getParcels();
+		boxParcel = (BoxParcel) parcels.get(0);
 	}
 
 	@Test
 	public void canGetDestination() {
-		assertEquals("Bloomington", boxParcel.getDestAddress().getCity());
+		assertEquals("Portland", boxParcel.getDestAddress().getAddressFields().get("city"));
 	}
 
 	@Test

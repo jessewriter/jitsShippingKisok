@@ -6,16 +6,22 @@ public abstract class Parcel {
 
 	private String getDeliveryMethodName;
 	private DeliveryMethod deliveryMethod;
-	private UnitedStatesAddress origAddress;
-	private UnitedStatesAddress destAddress;
+	private Address origAddress;
+	private Address destAddress;
 	private long id;
 	private double volume =1;
 
-	public Parcel(DeliveryMethod deliveryMethod, UnitedStatesAddress origAddress, UnitedStatesAddress destAddress,
+	public Parcel(DeliveryMethod deliveryMethod, Address address1, Address address2,
 			long id) {
 				this.deliveryMethod = deliveryMethod;
-				this.origAddress = origAddress;
-				this.destAddress = destAddress;
+				if(address1.getAddressVector().equals(AddressVector.FROM)) {
+				this.origAddress = address1;
+				this.destAddress = address2;
+				}
+				else {
+					this.origAddress = address2;
+					this.destAddress = address1;
+				}
 				this.id = id;
 				this.getDeliveryMethodName = deliveryMethod.getClass().getSimpleName();
 	}
@@ -28,11 +34,11 @@ public abstract class Parcel {
 		return getDeliveryMethodName;
 	}
 
-	public UnitedStatesAddress getOrigAddress() {
+	public Address getOrigAddress() {
 		return origAddress;
 	}
 
-	public UnitedStatesAddress getDestAddress() {
+	public Address getDestAddress() {
 		return destAddress;
 	}
 

@@ -1,13 +1,12 @@
 package jesseboyd.jitsShipping.calculations;
 
-import jesseboyd.jitsShipping.Parcel;
 
-public class  AirTimeCalculator extends TimeCalculator {
+public class  AirTimeCalculator extends ZipCodeTimeCalculator {
 	final double RATEFACTOR = 0.25;
 
 	
-	public AirTimeCalculator(Parcel parcel) {
-		super(parcel);
+	public AirTimeCalculator(int zip1, int zip2) {
+		super(zip1, zip2);
 	}
 
 	@Override
@@ -17,7 +16,7 @@ public class  AirTimeCalculator extends TimeCalculator {
 
 	@Override
 	int determineZoneDifference() {
-		int zoneDiff = Math.abs(getToZipDigit()-getFromZipDigit());
+		int zoneDiff = Math.abs(zip1-zip2);
 		if (zoneDiff==0) {
 			zoneDiff=1;
 		}

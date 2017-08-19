@@ -1,5 +1,6 @@
 package jesseboyd.jitsShipping;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import jesseboyd.jitsShipping.calculations.CalculationBuilder;
@@ -39,24 +40,24 @@ public class Deliver {
 
 	public String accept() {
 		if(mapRecieved) {
-			createParcel();
+//			createParcel();
 		}
 		packageValidDelivery();
 		return "Parcel has been shipped by " + parcel.getDeliveryMethodName();
 	}
 	
-	private boolean createParcel() {
-		boolean created = false;
-		switch (deliveryRequest.get("type").charAt(0)){
-			case 'L':parcel = new LetterParcel(determineDeliveryMethod(), createToAddress(), createFromAddress(), Long.valueOf(deliveryRequest.get("id")), determineEnvelope());
-			created = true;
-			break;
-			case 'B':parcel = new BoxParcel(determineDeliveryMethod(), createToAddress(), createFromAddress(),Long.valueOf(deliveryRequest.get("id")), determineBoxDimmensions());
-			created = true;
-			break;
-		}
-		return created;
-	}
+//	private boolean createParcel() {
+//		boolean created = false;
+//		switch (deliveryRequest.get("type").charAt(0)){
+//			case 'L':parcel = new LetterParcel(determineDeliveryMethod(), createToAddress(), createFromAddress(), Long.valueOf(deliveryRequest.get("id")), determineEnvelope());
+//			created = true;
+//			break;
+//			case 'B':parcel = new BoxParcel(determineDeliveryMethod(), createToAddress(), createFromAddress(),Long.valueOf(deliveryRequest.get("id")), determineBoxDimmensions());
+//			created = true;
+//			break;
+//		}
+//		return created;
+//	}
 	
 	private boolean packageValidDelivery() {
 		CalculationBuilder cb = new CalculationBuilder(parcel, weightCalculator);
@@ -69,26 +70,32 @@ public class Deliver {
 		return parcel;
 	}
 	
-	private UnitedStatesAddress createToAddress() {
-		return new UnitedStatesAddress(deliveryRequest.get("toName"), deliveryRequest.get("toStreet"), deliveryRequest.get("toCity"), 
-				deliveryRequest.get("toState"), deliveryRequest.get("toZip"));
+	private Address createToAddress() {
+		Map<String, String> toAddress = new HashMap<String, String>();
+		for (String addressElement : deliveryRequest.keySet()) {
+			if(addressElement.contains("to")) {
+				toAddress.put(addressElement, deliveryRequest.get(addressElement));
+			}
+			
+		}
+		return new UnitedStatesAddress(AddressVector.TO,toAddress);
 	}
 	
-	private UnitedStatesAddress createFromAddress() {
-		return new UnitedStatesAddress(deliveryRequest.get("fromName"), deliveryRequest.get("fromStreet"), deliveryRequest.get("fromCity"), 
-				deliveryRequest.get("fromState"), deliveryRequest.get("fromZip"));
-	}
-	
-	private DeliveryMethod determineDeliveryMethod() {
-		DeliveryMethod dm;
-		if(deliveryRequest.get("type").contains("G")) {
-			dm = new Ground();
-		}
-		else {
-			dm = new Air();
-		}
-		return dm;
-	}
+//	private UnitedStatesAddress createFromAddress() {
+//		return new UnitedStatesAddress(deliveryRequest.get("fromName"), deliveryRequest.get("fromStreet"), deliveryRequest.get("fromCity"), 
+//				deliveryRequest.get("fromState"), deliveryRequest.get("fromZip"));
+//	}
+//	
+//	private DeliveryMethod determineDeliveryMethod() {
+//		DeliveryMethod dm;
+//		if(deliveryRequest.get("type").contains("G")) {
+//			dm = new Ground();
+//		}
+//		else {
+//			dm = new Air();
+//		}
+//		return dm;
+//	}
 	
 	private Envelopes determineEnvelope() {
 		Envelopes e=null;

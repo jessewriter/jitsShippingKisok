@@ -3,16 +3,15 @@ package jesseboyd.jitsShipping.calculations;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-import jesseboyd.jitsShipping.Parcel;
 
-public class GroundTimeCalculator extends TimeCalculator {
+public class GroundTimeCalculator extends ZipCodeTimeCalculator {
 	private final double RATEFACTOR = 1.5;
 	private NavigableMap<Integer, Integer> timeZoneMap;
-	private String toZone;
-	private String fromZone;
+	private String timeZone1;
+	private String timeZone2;
 
-	public GroundTimeCalculator(Parcel parcel) {
-		super(parcel);
+	public GroundTimeCalculator(int zip1, int zip2) {
+		super(zip1, zip2);
 		timeZoneMap = new TreeMap<Integer, Integer>();
 		timeZoneMap.put(2, 4);
 		timeZoneMap.put(5, 3);
@@ -27,12 +26,13 @@ public class GroundTimeCalculator extends TimeCalculator {
 
 	@Override
 	int determineZoneDifference() {
-		System.out.println("zip digit " + getToZipDigit());
-		int zoneTo = timeZoneMap.ceilingEntry(getToZipDigit()).getValue();
-		toZone = setTimeZone(zoneTo);
-		int zoneFrom = timeZoneMap.ceilingEntry(getFromZipDigit()).getValue();
-		fromZone = setTimeZone(zoneFrom);
-		int zoneDiff = Math.abs(zoneTo-zoneFrom);
+		System.out.println("zip 1 = "+ zip1 + "zip2 " + zip2);
+		int zoneNumber1 = timeZoneMap.ceilingEntry(this.zip1).getValue();
+		timeZone1 = setTimeZone(zoneNumber1);
+		int zoneNumber2 = timeZoneMap.ceilingEntry(this.zip2).getValue();
+		System.out.println("z2 " + zoneNumber2);
+		timeZone2 = setTimeZone(zoneNumber2);
+		int zoneDiff = Math.abs(zoneNumber1-zoneNumber2);
 		if (zoneDiff==0) {
 			zoneDiff=1;
 		}
@@ -42,15 +42,16 @@ public class GroundTimeCalculator extends TimeCalculator {
 	
 	private final String[] timeZones = new String[] {"PT","MT", "CT", "ET"}; 
 	String setTimeZone(int zoneNumber) {
-		return timeZones[zoneNumber-1];
+		System.out.println("setting " + (zoneNumber-1));
+		return timeZones[(zoneNumber-1)];
 	}
 
-	public String getToZone() {
-		return toZone;
+	public String getTimeZone1() {
+		return timeZone1;
 	}
 
-	public String getFromZone() {
-		return fromZone;
+	public String getTimeZone2() {
+		return timeZone2;
 	}
 	
 	

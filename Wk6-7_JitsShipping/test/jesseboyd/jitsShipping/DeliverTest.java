@@ -3,27 +3,28 @@ package jesseboyd.jitsShipping;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import jesseboyd.jitsShipping.calculations.MailScaleWeightCalculator;
-import jesseboyd.jitsShipping.deliveryMethods.Air;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
 
 public class DeliverTest {
-	private BoxParcel boxParcel;
 	private Deliver deliver, kioskDeliver;
-	
 
+	private List<Parcel> parcels;
+	// 2 plain, 3 weatherproof, 4 fireproof
+	
 	@Before
-	public void setUp() throws Exception {
-		UnitedStatesAddress origAddress = new UnitedStatesAddress("Jesse", "123 main street", "Portland", "Oregon", "97230");
-		UnitedStatesAddress destAddress = new UnitedStatesAddress("Yara", "456 elm street", "Bloomington", "Illinois", "65060");
-		BoxDimmensions boxDim = new BoxDimmensions(10,10, 10);
-		boxParcel = new BoxParcel(new Air(), origAddress, destAddress, 1l, boxDim);
-		deliver = new Deliver(boxParcel, new MailScaleWeightCalculator(boxParcel));
+		public void setUp() throws Exception {
+			parcels = DemoParcelsForTesting.getParcels();
+			// test parcels
+			// 0-BA, 1-BG, 2-LAP, 3-LGW, 4-LGF
+		LetterParcel letterParcel = (LetterParcel) parcels.get(3);
+		deliver = new Deliver(letterParcel, new MailScaleWeightCalculator(letterParcel));
 		
 		Map<String, String> deliveryRequest = new HashMap<>();
 		deliveryRequest.put("type", "LG");
@@ -40,7 +41,7 @@ public class DeliverTest {
 		deliveryRequest.put("toZip", "98321");
 		deliveryRequest.put("ltype", "fire-proof");
 		deliveryRequest.put("fromZip", "98321");
-		kioskDeliver = new Deliver(deliveryRequest, new MailScaleWeightCalculator(boxParcel));
+		kioskDeliver = new Deliver(deliveryRequest, new MailScaleWeightCalculator(letterParcel));
 	}
 
 	@Test

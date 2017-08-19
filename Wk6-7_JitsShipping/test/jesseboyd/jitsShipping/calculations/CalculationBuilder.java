@@ -14,10 +14,14 @@ public class CalculationBuilder {
 	private double volume;
 	private double weight;
 	private String toZone, fromZone;
+	private int zone1;
+	private int zone2;
 	
 
 	public CalculationBuilder(Parcel parcel, WeightCalculator weightCalculator) {
 		this.parcel = parcel;
+		zone1 = getFirstNumberFromString(parcel.getOrigAddress().getAddressFields().get("zipCode"));
+		zone2 = getFirstNumberFromString(parcel.getDestAddress().getAddressFields().get("zipCode"));
 		this.weightCalculator = weightCalculator;
 		volume = parcel.getVolume();
 		deliveryMethod = parcel.getDeliveryMethod();
@@ -33,13 +37,14 @@ public class CalculationBuilder {
 	private double shippingTime() {
 		double answer;
 		if(deliveryMethod instanceof Air) {
-			AirTimeCalculator atc = new AirTimeCalculator(parcel);
+			AirTimeCalculator atc = new AirTimeCalculator(zone1, zone2);
 			answer= atc.calculateTime();
 	}
 		else if(deliveryMethod instanceof Ground) {
-			GroundTimeCalculator gtc = new GroundTimeCalculator(parcel);
-			toZone = gtc.getToZone();
-			fromZone = gtc.getFromZone();
+
+			GroundTimeCalculator gtc = new GroundTimeCalculator(zone1, zone2);
+			toZone = gtc.getTimeZone1();
+			fromZone = gtc.getTimeZone2();
 			answer= gtc.calculateTime();
 		}
 		else {
@@ -47,6 +52,10 @@ public class CalculationBuilder {
 		}
 		shippingTime = answer;
 		return answer;
+	}
+	
+	public int getFirstNumberFromString(String x) {
+		return Integer.valueOf(x.charAt(0));
 	}
 
 	public double getWeight() {
@@ -72,6 +81,9 @@ public class CalculationBuilder {
 		return answer;
 	}
 
+	
+	
+	
 	@Override
 	public String toString() {
 		return "CalculationBuilder [parcel=" + parcel + ", deliveryMethod=" + deliveryMethod + ", shippingTime="

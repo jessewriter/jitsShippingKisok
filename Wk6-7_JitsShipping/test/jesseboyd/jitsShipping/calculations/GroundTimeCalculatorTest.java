@@ -2,14 +2,15 @@ package jesseboyd.jitsShipping.calculations;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import jesseboyd.jitsShipping.BoxDimmensions;
 import jesseboyd.jitsShipping.BoxParcel;
-import jesseboyd.jitsShipping.UnitedStatesAddress;
+import jesseboyd.jitsShipping.DemoParcelsForTesting;
+import jesseboyd.jitsShipping.Parcel;
 import jesseboyd.jitsShipping.calculations.GroundTimeCalculator;
-import jesseboyd.jitsShipping.deliveryMethods.Air;
 
 public class GroundTimeCalculatorTest {
 
@@ -17,16 +18,9 @@ public class GroundTimeCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		UnitedStatesAddress origAddress = new UnitedStatesAddress("123", "main street", "Portland", "Oregon", "97230");
-		UnitedStatesAddress destAddress = new UnitedStatesAddress("456", "elm street", "Bloomington", "Illinois", "65060");
-		UnitedStatesAddress destAddress2 = new UnitedStatesAddress("123", "main street", "Portland", "Oregon", "97230");
-		BoxDimmensions boxDim = new BoxDimmensions(10,10, 10);
-		BoxParcel boxParcel = new BoxParcel(new Air(),
-				origAddress, destAddress, 2l, boxDim );
-		BoxParcel boxParcel2 = new BoxParcel(new Air(),
-				origAddress, destAddress2, 2l, boxDim );
-		gtc = new GroundTimeCalculator(boxParcel);
-		gtc2= new GroundTimeCalculator(boxParcel2);
+		
+		gtc = new GroundTimeCalculator(1,2);
+		gtc2= new GroundTimeCalculator(9,9);
 	}
 
 	@Test
@@ -50,10 +44,11 @@ public class GroundTimeCalculatorTest {
 	@Test
 	public void getTimeZones() throws Exception {
 		gtc.calculateTime();
-		String from = gtc.getFromZone();
-		String to = gtc.getToZone();
-		assertEquals("PT", from);
-		assertEquals("MT", to);
+		gtc2.calculateTime();
+		String from = gtc.getTimeZone1();
+		String to = gtc2.getTimeZone2();
+		assertEquals("ET", from);
+		assertEquals("PT", to);
 		
 	}
 	

@@ -6,9 +6,9 @@ public class BoxParcel extends Parcel {
 
 	private BoxDimmensions boxDimmensions;
 
-	public BoxParcel(DeliveryMethod eliveryMethod, UnitedStatesAddress origAddress, UnitedStatesAddress destAddress,
+	public BoxParcel(DeliveryMethod eliveryMethod, Address address1, Address address2,
 			long id, BoxDimmensions boxDimmensions) {
-		super(eliveryMethod, origAddress, destAddress, id);
+		super(eliveryMethod, address1, address2, id);
 		this.boxDimmensions = boxDimmensions;
 		setVolume(boxDimmensions.getVolumeInInches());
 	}
