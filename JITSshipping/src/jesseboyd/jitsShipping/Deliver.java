@@ -26,6 +26,7 @@ public class Deliver {
 		deliveryMethod = ksp1.determineDeliveryMethod();
 		deliveryType = ksp1.getDeliveryType();
 		this.weightCalculator = weightCalculator;
+		createParcel();
 	}
 
 	public String presentToCustomerForReview() {
@@ -33,7 +34,6 @@ public class Deliver {
 	}
 
 	public String accept() {
-			createParcel();
 		packageValidDelivery();
 		return "Parcel has been shipped by " + parcel.getDeliveryMethodName();
 	}
@@ -57,9 +57,8 @@ public class Deliver {
 	}
 	
 	private boolean packageValidDelivery() {
-		System.out.println(ksp1.parseMapForFromAddresses().getAddressFields().get("zipCode"));
-		int zip1 = Integer.valueOf(ksp1.parseMapForFromAddresses().getAddressFields().get("zipCode").substring(0, 1));
-		int zip2 = Integer.valueOf(ksp1.parseMapForToAddresses().getAddressFields().get("zipCode").substring(0, 1));
+		int zip1 = Integer.valueOf(ksp1.parseMapForFromAddresses().getAddressFields().get("zip").substring(0, 1));
+		int zip2 = Integer.valueOf(ksp1.parseMapForToAddresses().getAddressFields().get("zip").substring(0, 1));
 		CalculationBuilder cb = new CalculationBuilder(parcel, zip1, zip2, weightCalculator, volume, deliveryMethod);
 		validDelivery = new ValidDelivery(parcel, cb.getCost(), cb.getShippingTime(), cb.getWeight());
 		return true;
@@ -69,10 +68,8 @@ public class Deliver {
 	public Parcel getParcel() {
 		return parcel;
 	}
-
-
-	@SuppressWarnings("unused")
-	private ValidDelivery getValidDelivery() {
+	
+	public ValidDelivery getValidDelivery() {
 		return validDelivery;
 	}
 

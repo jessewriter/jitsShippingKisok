@@ -41,5 +41,15 @@ public class UnitedStatesAddress implements Address {
 		return addressFields;
 	}
 
+	@Override
+	public String toString() {
+		return "UnitedStatesAddress [ name=" + addressFields.get("name") +
+				" \n street: " + addressFields.get("street") +
+				"\n city: " + addressFields.get("city") +
+				" \n state: " + addressFields.get("state") +
+				" \n zipCode: " + addressFields.get("zip") +
+				" ]";
+	}
+
 
 }

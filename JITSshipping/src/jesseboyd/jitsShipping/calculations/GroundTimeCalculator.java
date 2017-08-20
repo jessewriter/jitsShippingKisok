@@ -40,7 +40,6 @@ public class GroundTimeCalculator extends ZipCodeTimeCalculator {
 	
 	private final String[] timeZones = new String[] {"PT","MT", "CT", "ET"}; 
 	String setTimeZone(int zoneNumber) {
-		System.out.println("setting " + (zoneNumber-1));
 		return timeZones[(zoneNumber-1)];
 	}
 

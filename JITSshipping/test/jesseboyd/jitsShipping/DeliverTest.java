@@ -12,7 +12,7 @@ import jesseboyd.jitsShipping.calculations.MailScaleWeightCalculator;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
 
 public class DeliverTest {
-	private Deliver deliver, kioskDeliver;
+	private Deliver kioskDeliver;
 
 	//private List<Parcel> parcels;
 	// 2 plain, 3 weatherproof, 4 fireproof
@@ -32,28 +32,33 @@ public class DeliverTest {
 		deliveryRequest.put("toCity", "Portland");
 		deliveryRequest.put("toState", "OR");
 		deliveryRequest.put("toZip", "97230");
-		deliveryRequest.put("toName", "Christian");
-		deliveryRequest.put("toStreet", "1 E 19th Ave");
-		deliveryRequest.put("toCity", "Seatle");
-		deliveryRequest.put("toState", "WA");
-		deliveryRequest.put("toZip", "98321");
-		deliveryRequest.put("ltype", "fire-proof");
+		deliveryRequest.put("fromName", "Christian");
+		deliveryRequest.put("fromStreet", "1 E 19th Ave");
+		deliveryRequest.put("fromCity", "Seatle");
+		deliveryRequest.put("fromState", "WA");
 		deliveryRequest.put("fromZip", "98321");
+		deliveryRequest.put("ltype", "fire-proof");
 		kioskDeliver = new Deliver(new KioskSringParserV1(deliveryRequest) , new MailScaleWeightCalculator());
 	}
 
 	@Test
 	public void presentToCustomer() {
-		System.out.println(deliver.presentToCustomerForReview());
-		assertTrue(deliver.presentToCustomerForReview().contains("Parcel [deliveryMethod=Air,"
-				+ " origAddress=UnitedStatesAddress [name=Jesse, street=123 main street, city=Portland, "
-				+ "state=Oregon, zipCode=97230], destAddress=UnitedStatesAddress [name=Yara, street=456 elm street, city=Bloomington, state=Illinois, zipCode=65060], id=1]"));
+		System.out.println(kioskDeliver.presentToCustomerForReview());
+		assertTrue(kioskDeliver.presentToCustomerForReview().contains("Parcel [deliveryMethod=Ground, origAddress=UnitedStatesAddress [ name=Christian \n" + 
+				" street: 1 E 19th Ave\n" + 
+				" city: Seatle \n" + 
+				" state: WA \n" + 
+				" zipCode: 98321 ], destAddress=UnitedStatesAddress [ name=Jesse \n" + 
+				" street: 1110 NE 194th Ave\n" + 
+				" city: Portland \n" + 
+				" state: OR \n" + 
+				" zipCode: 97230 ], id=1]"));
 	}
 	
 	@Test
 	public void userAcceptsDelivery() throws Exception {
 		System.out.println(kioskDeliver.accept());
-		assertTrue(kioskDeliver.accept().contains("Parcel has been shipped by Air"));
+		assertTrue(kioskDeliver.accept().contains("Parcel has been shipped by Ground"));
 	}
 	
 	@Test

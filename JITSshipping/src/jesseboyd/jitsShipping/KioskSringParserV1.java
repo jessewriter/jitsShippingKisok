@@ -22,19 +22,19 @@ public class KioskSringParserV1 extends KioskStringParser {
 		Map<String, String> toAddressModified = new HashMap<String, String>();
 		for (String addressElement : kisokMapProvided.keySet()) {
 			if(addressElement.contains("to")) {
-				toAddressModified.put(addressElement.substring(2), kisokMapProvided.get(addressElement).substring(0,1).toLowerCase());
+				toAddressModified.put(addressElement.substring(2).toLowerCase(), kisokMapProvided.get(addressElement));
 			}
 			
 		}
 		return new UnitedStatesAddress(AddressVector.TO,toAddressModified);
 	}
-
+	
 	@Override
 	public UnitedStatesAddress parseMapForFromAddresses() {
 		Map<String, String> fromAddressModified = new HashMap<String, String>();
 		for (String addressElement : kisokMapProvided.keySet()) {
 			if(addressElement.contains("from")) {
-				fromAddressModified.put(addressElement.substring(4), kisokMapProvided.get(addressElement).substring(0,1).toLowerCase());
+				fromAddressModified.put(addressElement.substring(4).toLowerCase(), kisokMapProvided.get(addressElement));
 			}
 			
 		}
