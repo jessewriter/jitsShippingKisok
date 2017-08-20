@@ -26,11 +26,9 @@ public class GroundTimeCalculator extends ZipCodeTimeCalculator {
 
 	@Override
 	int determineZoneDifference() {
-		System.out.println("zip 1 = "+ zip1 + "zip2 " + zip2);
 		int zoneNumber1 = timeZoneMap.ceilingEntry(this.zip1).getValue();
 		timeZone1 = setTimeZone(zoneNumber1);
 		int zoneNumber2 = timeZoneMap.ceilingEntry(this.zip2).getValue();
-		System.out.println("z2 " + zoneNumber2);
 		timeZone2 = setTimeZone(zoneNumber2);
 		int zoneDiff = Math.abs(zoneNumber1-zoneNumber2);
 		if (zoneDiff==0) {
