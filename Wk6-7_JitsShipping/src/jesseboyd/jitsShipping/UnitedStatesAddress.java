@@ -9,7 +9,6 @@ public class UnitedStatesAddress implements Address {
 	private Map<String, String> addressFields;
 
 	public UnitedStatesAddress(AddressVector  addressVector, String name, String street, String city, String state, String zipCode) {
-		this.addressVector = addressVector;
 		addressFields = new HashMap<>();
 		this.addressVector = addressVector;
 		addressFields.put("name", name);

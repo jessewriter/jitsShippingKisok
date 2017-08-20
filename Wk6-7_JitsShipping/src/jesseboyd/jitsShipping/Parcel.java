@@ -4,12 +4,10 @@ import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 
 public abstract class Parcel {
 
-	private String getDeliveryMethodName;
 	private DeliveryMethod deliveryMethod;
 	private Address origAddress;
 	private Address destAddress;
 	private long id;
-	private double volume =1;
 
 	public Parcel(DeliveryMethod deliveryMethod, Address address1, Address address2,
 			long id) {
@@ -23,7 +21,6 @@ public abstract class Parcel {
 					this.destAddress = address1;
 				}
 				this.id = id;
-				this.getDeliveryMethodName = deliveryMethod.getClass().getSimpleName();
 	}
 
 	public DeliveryMethod getDeliveryMethod() {
@@ -31,7 +28,7 @@ public abstract class Parcel {
 	}
 	
 	public String getDeliveryMethodName() {
-		return getDeliveryMethodName;
+		return deliveryMethod.getClass().getSimpleName();
 	}
 
 	public Address getOrigAddress() {
@@ -46,17 +43,9 @@ public abstract class Parcel {
 		return id;
 	}
 	
-	public double getVolume() {
-		return volume;
-	}
-	
-	public void setVolume(double volume) {
-		this.volume = volume;
-	}
-
 	@Override
 	public String toString() {
-		return "Parcel [deliveryMethod=" + getDeliveryMethodName + ", origAddress=" + origAddress + ", destAddress=" + destAddress
+		return "Parcel [deliveryMethod=" + getDeliveryMethodName() + ", origAddress=" + origAddress + ", destAddress=" + destAddress
 				+ ", id=" + id + "]";
 	}
 

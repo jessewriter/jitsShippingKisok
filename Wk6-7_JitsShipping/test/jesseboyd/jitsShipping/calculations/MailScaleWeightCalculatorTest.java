@@ -25,14 +25,15 @@ public class MailScaleWeightCalculatorTest {
 
 	@Test
 	public void mockScaleAndReturnAbsoluteValue() throws NoSuchMethodException, SecurityException {
-	
 	IMockBuilder<MailScale2> mailScale2 = EasyMock.createMockBuilder(MailScale2.class).
 			addMockedMethod(MailScale2.class.getMethod("calculateWeight", Object.class ));
 	
 	MailScale2 mockedScale = mailScale2.createMock();
 	EasyMock.expect(mockedScale.calculateWeight(boxParcel)).andReturn(6.2);
 	EasyMock.replay(mockedScale);
-	wp2 = new MailScaleWeightCalculator(boxParcel, mockedScale);
+	wp2 = new MailScaleWeightCalculator();
+	wp2.setParcel(boxParcel);
+	wp2.setMailScaleForMocking(mockedScale);
 	assertEquals(7, wp2.weigh(), 01);
 	}
 

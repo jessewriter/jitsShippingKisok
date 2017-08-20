@@ -3,7 +3,6 @@ package jesseboyd.jitsShipping;
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -15,16 +14,15 @@ import jesseboyd.jitsShipping.deliveryMethods.Ground;
 public class DeliverTest {
 	private Deliver deliver, kioskDeliver;
 
-	private List<Parcel> parcels;
+	//private List<Parcel> parcels;
 	// 2 plain, 3 weatherproof, 4 fireproof
 	
 	@Before
 		public void setUp() throws Exception {
-			parcels = DemoParcelsForTesting.getParcels();
+			//parcels = DemoParcelsForTesting.getParcels();
 			// test parcels
 			// 0-BA, 1-BG, 2-LAP, 3-LGW, 4-LGF
-		LetterParcel letterParcel = (LetterParcel) parcels.get(3);
-		deliver = new Deliver(letterParcel, new MailScaleWeightCalculator(letterParcel));
+		//LetterParcel letterParcel = (LetterParcel) parcels.get(3);
 		
 		Map<String, String> deliveryRequest = new HashMap<>();
 		deliveryRequest.put("type", "LG");
@@ -41,7 +39,7 @@ public class DeliverTest {
 		deliveryRequest.put("toZip", "98321");
 		deliveryRequest.put("ltype", "fire-proof");
 		deliveryRequest.put("fromZip", "98321");
-		kioskDeliver = new Deliver(deliveryRequest, new MailScaleWeightCalculator(letterParcel));
+		kioskDeliver = new Deliver(new KioskSringParserV1(deliveryRequest) , new MailScaleWeightCalculator());
 	}
 
 	@Test
@@ -54,8 +52,8 @@ public class DeliverTest {
 	
 	@Test
 	public void userAcceptsDelivery() throws Exception {
-		System.out.println(deliver.accept());
-		assertTrue(deliver.accept().contains("Parcel has been shipped by Air"));
+		System.out.println(kioskDeliver.accept());
+		assertTrue(kioskDeliver.accept().contains("Parcel has been shipped by Air"));
 	}
 	
 	@Test

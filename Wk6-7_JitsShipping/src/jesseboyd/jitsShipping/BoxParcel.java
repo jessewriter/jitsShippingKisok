@@ -10,7 +10,6 @@ public class BoxParcel extends Parcel {
 			long id, BoxDimmensions boxDimmensions) {
 		super(eliveryMethod, address1, address2, id);
 		this.boxDimmensions = boxDimmensions;
-		setVolume(boxDimmensions.getVolumeInInches());
 	}
 
 	public BoxDimmensions getBoxDimmensions() {

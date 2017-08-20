@@ -6,7 +6,6 @@ import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
 
 public class CalculationBuilder {
-	private Parcel parcel;
 	private DeliveryMethod deliveryMethod;
 	private double shippingTime;
 	private WeightCalculator weightCalculator;
@@ -18,14 +17,14 @@ public class CalculationBuilder {
 	private int zone2;
 	
 
-	public CalculationBuilder(Parcel parcel, WeightCalculator weightCalculator) {
-		this.parcel = parcel;
-		zone1 = getFirstNumberFromString(parcel.getOrigAddress().getAddressFields().get("zipCode"));
-		zone2 = getFirstNumberFromString(parcel.getDestAddress().getAddressFields().get("zipCode"));
+	public CalculationBuilder(Parcel parcel, int zip1, int zip2, WeightCalculator weightCalculator, double volume, DeliveryMethod deliveryMethod) {
+		//this.parcel = parcel;
+		zone1 = zip1;
+		zone2 = zip2;
 		this.weightCalculator = weightCalculator;
-		volume = parcel.getVolume();
-		deliveryMethod = parcel.getDeliveryMethod();
-		shippingTime();
+		this.volume = volume;
+		this.deliveryMethod = deliveryMethod;
+		generateShippingTime();
 		getWeight();
 		getCost();
 	}
@@ -34,7 +33,7 @@ public class CalculationBuilder {
 		return shippingTime;
 	}
 	
-	private double shippingTime() {
+	private double generateShippingTime() {
 		double answer;
 		if(deliveryMethod instanceof Air) {
 			AirTimeCalculator atc = new AirTimeCalculator(zone1, zone2);
@@ -64,7 +63,6 @@ public class CalculationBuilder {
 	}
 
 	public double getCost() {
-		System.out.println(this.toString());
 		double answer;
 		if(deliveryMethod instanceof Air) {
 			AirShippingCostCalculator asc = new AirShippingCostCalculator(zoneDiff, weight, volume);
@@ -80,17 +78,12 @@ public class CalculationBuilder {
 		}
 		return answer;
 	}
-
-	
-	
 	
 	@Override
 	public String toString() {
-		return "CalculationBuilder [parcel=" + parcel + ", deliveryMethod=" + deliveryMethod + ", shippingTime="
+		return "CalculationBuilder [ deliveryMethod=" + deliveryMethod + ", shippingTime="
 				+ shippingTime + ", weightCalculator=" + weightCalculator + ", zoneDiff=" + zoneDiff + ", volume="
 				+ volume + ", weight=" + weight + ", toZone=" + toZone + ", fromZone=" + fromZone + "]";
 	}
-	
-	
 
 }
