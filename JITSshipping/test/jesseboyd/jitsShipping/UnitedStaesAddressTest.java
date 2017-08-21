@@ -26,6 +26,7 @@ public class UnitedStaesAddressTest {
 	@Test
 	public void addressGetters() {
 		assertEquals(address.getAddressFields().get("street"), "123 main street");
+		assertTrue(address.getAddressVector()== AddressVector.TO);
 	}
 
 }
