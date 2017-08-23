@@ -1,4 +1,4 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.address;
 
 public enum AddressCountry {
 USA;

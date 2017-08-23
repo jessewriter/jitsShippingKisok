@@ -7,10 +7,11 @@ import org.easymock.IMockBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import com.thirdParty.calibration.MailScale2;
-import jesseboyd.jitsShipping.BoxParcel;
+
 import jesseboyd.jitsShipping.DemoParcelsForTesting;
-import jesseboyd.jitsShipping.Parcel;
 import jesseboyd.jitsShipping.calculations.MailScaleWeightCalculator;
+import jesseboyd.jitsShipping.parcels.BoxParcel;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class MailScaleWeightCalculatorTest {
 

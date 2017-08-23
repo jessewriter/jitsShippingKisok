@@ -1,4 +1,4 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.parcels;
 
 import static org.junit.Assert.*;
 
@@ -7,11 +7,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import jesseboyd.jitsShipping.DemoParcelsForTesting;
 import jesseboyd.jitsShipping.deliveryMethods.Air;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
 import jesseboyd.jitsShipping.envelopes.FireProof;
 import jesseboyd.jitsShipping.envelopes.Plain;
 import jesseboyd.jitsShipping.envelopes.WeatherProof;
+import jesseboyd.jitsShipping.parcels.LetterParcel;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class LetterParcelTest {
 

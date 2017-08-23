@@ -1,6 +1,10 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.delivery;
 
 import java.text.NumberFormat;
+
+import jesseboyd.jitsShipping.address.AddressVector;
+import jesseboyd.jitsShipping.address.UnitedStatesAddress;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class ValidUSADelivery {
 	private Parcel parcel;

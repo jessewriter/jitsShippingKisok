@@ -1,9 +1,12 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.dimmensions;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import jesseboyd.jitsShipping.dimensions.BoxDimmensions;
+import jesseboyd.jitsShipping.dimensions.Dimmensions;
 
 public class BoxDimmensionsTest {
 

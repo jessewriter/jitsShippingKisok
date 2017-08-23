@@ -1,4 +1,4 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.address;
 
 import java.util.HashMap;
 import java.util.Map;

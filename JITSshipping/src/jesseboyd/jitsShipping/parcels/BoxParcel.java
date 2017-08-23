@@ -1,6 +1,7 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.parcels;
 
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
+import jesseboyd.jitsShipping.dimensions.BoxDimmensions;
 
 public class BoxParcel extends Parcel {
 

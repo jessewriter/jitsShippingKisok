@@ -1,9 +1,15 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.delivery;
 
 
+import jesseboyd.jitsShipping.address.UnitedStatesAddress;
 import jesseboyd.jitsShipping.calculations.CalculationBuilder;
 import jesseboyd.jitsShipping.calculations.WeightCalculator;
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
+import jesseboyd.jitsShipping.dimensions.BoxDimmensions;
+import jesseboyd.jitsShipping.parcels.BoxParcel;
+import jesseboyd.jitsShipping.parcels.LetterParcel;
+import jesseboyd.jitsShipping.parcels.Parcel;
+import jesseboyd.jitsShipping.parsers.KioskStringParser;
 
 public class Deliver {
 
@@ -23,7 +29,7 @@ public class Deliver {
 		ksp1 = kioskStringParser;
 		fromAddressDecoded = (UnitedStatesAddress) ksp1.parseMapForFromAddresses();
 		toAddressDecoded = (UnitedStatesAddress) ksp1.parseMapForToAddresses();
-		idDecoded = Long.valueOf(ksp1.kisokMapProvided.get("id"));
+		idDecoded = Long.valueOf(ksp1.getKisokMapProvided().get("id"));
 		deliveryMethod = ksp1.determineDeliveryMethod();
 		deliveryType = ksp1.getDeliveryType();
 		this.weightCalculator = weightCalculator;

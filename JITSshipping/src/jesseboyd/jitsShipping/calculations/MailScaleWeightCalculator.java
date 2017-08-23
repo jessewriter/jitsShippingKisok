@@ -2,7 +2,7 @@ package jesseboyd.jitsShipping.calculations;
 
 import com.thirdParty.calibration.MailScale2;
 
-import jesseboyd.jitsShipping.Parcel;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class MailScaleWeightCalculator implements WeightCalculator{
 	private MailScale2 ms;

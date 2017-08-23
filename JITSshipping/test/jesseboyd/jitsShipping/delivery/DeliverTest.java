@@ -1,4 +1,4 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.delivery;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jesseboyd.jitsShipping.calculations.MockWeightCalculatorReturns100;
+import jesseboyd.jitsShipping.delivery.Deliver;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
+import jesseboyd.jitsShipping.parsers.KioskSringParserV1;
 
 public class DeliverTest {
 	private Deliver kioskDeliver;

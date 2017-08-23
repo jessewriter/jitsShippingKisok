@@ -7,9 +7,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import jesseboyd.jitsShipping.DemoParcelsForTesting;
-import jesseboyd.jitsShipping.Parcel;
 import jesseboyd.jitsShipping.calculations.AirShippingCostCalculator;
 import jesseboyd.jitsShipping.deliveryMethods.Air;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class AirShippingCostCalculatorTest {
 

@@ -1,4 +1,4 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.address;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,9 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import jesseboyd.jitsShipping.address.Address;
+import jesseboyd.jitsShipping.address.UnitedStatesAddress;
 
 public class UnitedStaesAddressTest {
 

@@ -1,6 +1,6 @@
 package jesseboyd.jitsShipping.calculations;
 
-import jesseboyd.jitsShipping.Parcel;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class MockWeightCalculatorReturns100 implements WeightCalculator {
 

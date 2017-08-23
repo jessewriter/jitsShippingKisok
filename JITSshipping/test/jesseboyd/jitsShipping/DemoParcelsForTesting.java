@@ -5,12 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import jesseboyd.jitsShipping.address.AddressCountry;
+import jesseboyd.jitsShipping.address.AddressFactory;
+import jesseboyd.jitsShipping.address.AddressVector;
+import jesseboyd.jitsShipping.address.UnitedStatesAddress;
 import jesseboyd.jitsShipping.deliveryMethods.Air;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
+import jesseboyd.jitsShipping.dimensions.BoxDimmensions;
 import jesseboyd.jitsShipping.envelopes.FireProof;
 import jesseboyd.jitsShipping.envelopes.Plain;
 import jesseboyd.jitsShipping.envelopes.WeatherProof;
+import jesseboyd.jitsShipping.parcels.BoxParcel;
+import jesseboyd.jitsShipping.parcels.LetterParcel;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public final class DemoParcelsForTesting {
 private static List<Parcel> parcels;

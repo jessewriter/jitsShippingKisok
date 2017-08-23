@@ -1,6 +1,6 @@
 package jesseboyd.jitsShipping.calculations;
 
-import jesseboyd.jitsShipping.Parcel;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public interface WeightCalculator {
 	

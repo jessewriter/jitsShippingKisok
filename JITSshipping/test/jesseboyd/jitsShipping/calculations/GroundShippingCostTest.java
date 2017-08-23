@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jesseboyd.jitsShipping.DemoParcelsForTesting;
-import jesseboyd.jitsShipping.Parcel;
 import jesseboyd.jitsShipping.calculations.GroundShippingCostCalculator;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class GroundShippingCostTest {
 

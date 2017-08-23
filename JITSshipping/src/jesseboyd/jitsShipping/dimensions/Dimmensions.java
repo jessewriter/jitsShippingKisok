@@ -1,4 +1,4 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.dimensions;
 
 public abstract class Dimmensions {
 

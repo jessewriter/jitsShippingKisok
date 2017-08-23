@@ -1,9 +1,9 @@
 package jesseboyd.jitsShipping.calculations;
 
-import jesseboyd.jitsShipping.Parcel;
 import jesseboyd.jitsShipping.deliveryMethods.Air;
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
+import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class CalculationBuilder {
 	private DeliveryMethod deliveryMethod;

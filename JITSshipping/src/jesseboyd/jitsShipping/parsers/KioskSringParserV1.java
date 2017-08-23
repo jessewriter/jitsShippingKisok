@@ -1,11 +1,14 @@
-package jesseboyd.jitsShipping;
+package jesseboyd.jitsShipping.parsers;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import jesseboyd.jitsShipping.address.AddressVector;
+import jesseboyd.jitsShipping.address.UnitedStatesAddress;
 import jesseboyd.jitsShipping.deliveryMethods.Air;
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
+import jesseboyd.jitsShipping.dimensions.BoxDimmensions;
 import jesseboyd.jitsShipping.envelopes.Envelopes;
 import jesseboyd.jitsShipping.envelopes.FireProof;
 import jesseboyd.jitsShipping.envelopes.Plain;
@@ -30,9 +33,9 @@ public class KioskSringParserV1 extends KioskStringParser {
 	@Override
 	public UnitedStatesAddress parseMapForToAddresses() {
 		Map<String, String> toAddressModified = new HashMap<String, String>();
-		for (String addressElement : kisokMapProvided.keySet()) {
+		for (String addressElement : getKisokMapProvided().keySet()) {
 			if(addressElement.contains("to")) {
-				toAddressModified.put(addressElement.substring(2).toLowerCase(), kisokMapProvided.get(addressElement));
+				toAddressModified.put(addressElement.substring(2).toLowerCase(), getKisokMapProvided().get(addressElement));
 			}
 			
 		}
@@ -43,9 +46,9 @@ public class KioskSringParserV1 extends KioskStringParser {
 	@Override
 	public UnitedStatesAddress parseMapForFromAddresses() {
 		Map<String, String> fromAddressModified = new HashMap<String, String>();
-		for (String addressElement : kisokMapProvided.keySet()) {
+		for (String addressElement : getKisokMapProvided().keySet()) {
 			if(addressElement.contains("from")) {
-				fromAddressModified.put(addressElement.substring(4).toLowerCase(), kisokMapProvided.get(addressElement));
+				fromAddressModified.put(addressElement.substring(4).toLowerCase(), getKisokMapProvided().get(addressElement));
 			}
 			
 		}
@@ -58,7 +61,7 @@ public class KioskSringParserV1 extends KioskStringParser {
 	public DeliveryMethod determineDeliveryMethod() {
 		
 		DeliveryMethod dm;
-		if(kisokMapProvided.get("type").contains("G")) {
+		if(getKisokMapProvided().get("type").contains("G")) {
 			dm = new Ground(zip1, zip2);
 		}
 		else {
@@ -70,7 +73,7 @@ public class KioskSringParserV1 extends KioskStringParser {
 	public Envelopes determineEnvelope() {
 		Envelopes e=null;
 		
-		switch( kisokMapProvided.get("ltype")) {
+		switch( getKisokMapProvided().get("ltype")) {
 		case "plain": e = new Plain();
 		break;
 		case "fire-proof": e = new FireProof();
@@ -82,15 +85,15 @@ public class KioskSringParserV1 extends KioskStringParser {
 	@Override
 	public BoxDimmensions determineBoxDimmensions() {
 		return new BoxDimmensions(
-				Integer.parseInt(kisokMapProvided.get("depth")),
-				Integer.parseInt(kisokMapProvided.get("width")),
-						Integer.parseInt(kisokMapProvided.get("height"))
+				Integer.parseInt(getKisokMapProvided().get("depth")),
+				Integer.parseInt(getKisokMapProvided().get("width")),
+						Integer.parseInt(getKisokMapProvided().get("height"))
 				) ;
 		}
 
 	@Override
 	public char getDeliveryType() {
-		return kisokMapProvided.get("type").charAt(0);
+		return getKisokMapProvided().get("type").charAt(0);
 	}
 
 }
