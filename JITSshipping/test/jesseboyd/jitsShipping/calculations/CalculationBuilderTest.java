@@ -23,6 +23,8 @@ public class CalculationBuilderTest {
 
 	@Before
 	public void setUp() throws Exception {
+		// test parcels
+		// 0-BA zone (1,9), 1-BG (3,3), 2-LAP (1,9), 3-LGW no discount (1,9), 4-LGF (9,9) 
 		List<Parcel> parcels = DemoParcelsForTesting.getParcels();
 		bp = (BoxParcel) parcels.get(0);
 		mswc = new MailScaleWeightCalculator();
@@ -53,10 +55,9 @@ public class CalculationBuilderTest {
 	}
 	
 	@Test
-	public void getCost() throws Exception {
-	
+	public void getCostWithInsurance() throws Exception {
 		double actual = cb.getCost();
-		double expected = 6.125;
+		double expected = 6.74;
 		assertEquals(expected, actual, .1);
 		
 	}

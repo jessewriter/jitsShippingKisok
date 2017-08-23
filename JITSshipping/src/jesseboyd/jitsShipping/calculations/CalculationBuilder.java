@@ -1,11 +1,15 @@
 package jesseboyd.jitsShipping.calculations;
 
+import java.util.Observable;
+
+import jesseboyd.jitsShipping.auditor.CostAuditor;
 import jesseboyd.jitsShipping.deliveryMethods.Air;
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
+import jesseboyd.jitsShipping.parcels.Insurable;
 import jesseboyd.jitsShipping.parcels.Parcel;
 
-public class CalculationBuilder {
+public class CalculationBuilder extends Observable {
 	private DeliveryMethod deliveryMethod;
 	private double shippingTime;
 	private WeightCalculator weightCalculator;
@@ -13,12 +17,13 @@ public class CalculationBuilder {
 	private double volume;
 	private double weight;
 	private String toZone, fromZone;
+	private Parcel parcel;
 //	private int zone1;
 //	private int zone2;
 	
 
 	public CalculationBuilder(Parcel parcel, WeightCalculator weightCalculator, double volume) {
-		//this.parcel = parcel;
+		this.parcel = parcel;
 //		zone1 = parcel.getDeliveryMethod().getFromZipFirstDigit();
 //		zone2 = parcel.getDeliveryMethod().getToZipFirstDigit();
 		this.weightCalculator = weightCalculator;
@@ -75,7 +80,16 @@ public class CalculationBuilder {
 		else {
 			throw new IllegalArgumentException("Delivery method must be Air or Ground");
 		}
-		return answer;
+		// notify observers of pre-insurance cost
+		this.addObserver(new CostAuditor());
+		this.setChanged();
+		this.notifyObservers(answer);
+		if(parcel instanceof Insurable && ((Insurable) parcel).isInsured()) {
+		
+			answer = answer * ((Insurable) parcel).getInsuranceFactor();
+		}
+		return Math.round(answer*100.0)/100.0;  
+		// make sure you use the round that returns an int not long
 	}
 	
 	@Override

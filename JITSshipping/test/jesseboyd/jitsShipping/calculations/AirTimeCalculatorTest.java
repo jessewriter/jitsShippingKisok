@@ -15,7 +15,7 @@ public class AirTimeCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		ac = new AirTimeCalculator(new Ground(5,5));
+		ac = new AirTimeCalculator(new Air(5,5));
 		ac2 = new AirTimeCalculator(new Air(4,9));
 	}
 

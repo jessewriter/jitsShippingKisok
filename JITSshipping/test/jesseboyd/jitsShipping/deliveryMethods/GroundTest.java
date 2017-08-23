@@ -17,7 +17,7 @@ public class GroundTest {
 	@Test
 	public void test() {
 		
-		
+		assertEquals(3, ground.getZoneDifference(), .01);
 		assertEquals("ET", ground.getTimeZone1());
 	}
 

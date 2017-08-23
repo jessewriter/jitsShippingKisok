@@ -17,7 +17,7 @@ public class Rail extends DeliveryMethod {
 	public double getDiscount() {
 		return 0;
 	}
-
+	
 	@Override
 	public double getZoneDifference() {
 		double answer = 1;

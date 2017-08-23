@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class UnitedStatesAddress implements Address {
 
+	private static final long serialVersionUID = -2814537640204331189L;
 	private AddressVector addressVector;
 	private Map<String, String> addressFields;
 

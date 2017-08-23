@@ -1,9 +1,12 @@
 package jesseboyd.jitsShipping.parcels;
 
+import java.io.Serializable;
+
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 
-public abstract class Parcel {
+public abstract class Parcel implements Serializable {
 
+	private static final long serialVersionUID = -4759759515871226713L;
 	private DeliveryMethod deliveryMethod;
 //	private Address origAddress;
 //	private Address destAddress;

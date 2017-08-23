@@ -4,6 +4,7 @@ import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 import jesseboyd.jitsShipping.envelopes.Envelopes;
 
 public class LetterParcel extends Parcel {
+	private static final long serialVersionUID = -8544060304554781436L;
 	private Envelopes packaging;
 
 	public LetterParcel(DeliveryMethod deliveryMethod,

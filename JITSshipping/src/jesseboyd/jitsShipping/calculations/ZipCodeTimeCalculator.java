@@ -15,21 +15,19 @@ public abstract class ZipCodeTimeCalculator {
 		zip1 = deliveryMethod.getFromZipFirstDigit();
 		zip2 = deliveryMethod.getToZipFirstDigit();
 		TIMERATEFACTOR = deliveryMethod.getTimeRateFactor();
-		this.zoneDifference = deliveryMethod.getZoneDifference();
+//		this.zoneDifference = deliveryMethod.getZoneDifference();
 	}
 	
 	abstract double calculateTime();
 
-	double getZoneDifference() {
-		if(zoneDifference== -1) {
-		}
-		return zoneDifference;
+	public double getZoneDifference() {
+		return deliveryMethod.getZoneDifference();
 	}
+
 	
-	
-	public void setZoneDifference(int zoneDifference) {
-		this.zoneDifference = zoneDifference;
-	}
+//	public void setZoneDifference(int zoneDifference) {
+//		this.zoneDifference = zoneDifference;
+//	}
 	
 
 	

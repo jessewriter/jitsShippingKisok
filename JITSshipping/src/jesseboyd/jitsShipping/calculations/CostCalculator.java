@@ -8,6 +8,7 @@ public abstract class CostCalculator {
 	private double weight;
 	private DeliveryMethod deliveryMethod;
 	private double CONVERTOUNCESTOPOUNDS = 0.0625;
+	
 
 	// common fields zone diff, weight
 	public CostCalculator(DeliveryMethod deliveryMethod, double weight) {

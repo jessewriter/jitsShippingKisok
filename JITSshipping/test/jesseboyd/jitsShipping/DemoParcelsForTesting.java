@@ -28,8 +28,8 @@ public  DemoParcelsForTesting() {
 	
 public static List<Parcel> getParcels(){
 	BoxDimmensions boxDim = new BoxDimmensions(10,10, 10);
-	BoxParcel boxParcel = new BoxParcel(new Air(1,9), 1l, boxDim );
-	BoxParcel boxParcel2 = new BoxParcel(new Ground(3,3), 2l, boxDim );
+	BoxParcel boxParcel = new BoxParcel(new Air(1,9), 1l, boxDim, true);// has insurance
+	BoxParcel boxParcel2 = new BoxParcel(new Ground(3,3), 2l, boxDim, false ); 
 	LetterParcel letterParcel = new LetterParcel(new Air(1,9), 3l, new Plain() );
 	LetterParcel letterParcel2 = new LetterParcel(new Ground(1,9), 4l, new WeatherProof() );
 	LetterParcel letterParcel3 = new LetterParcel(new Ground(9,9), 5l, new FireProof() );

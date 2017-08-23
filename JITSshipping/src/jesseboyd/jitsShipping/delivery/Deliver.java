@@ -1,6 +1,7 @@
 package jesseboyd.jitsShipping.delivery;
 
 
+
 import jesseboyd.jitsShipping.address.UnitedStatesAddress;
 import jesseboyd.jitsShipping.calculations.CalculationBuilder;
 import jesseboyd.jitsShipping.calculations.WeightCalculator;
@@ -34,6 +35,7 @@ public class Deliver {
 		deliveryType = ksp1.getDeliveryType();
 		this.weightCalculator = weightCalculator;
 		createParcel();
+		packageValidDelivery(DeliveryStatus.pending);
 	}
 
 	public String presentToCustomerForReview() throws Exception {
@@ -44,7 +46,7 @@ public class Deliver {
 	}
 
 	public String accept() {
-		packageValidDelivery();
+		validDelivery.setDeliveryStatus(DeliveryStatus.accepted);;
 		return "Parcel has been shipped by " + parcel.getDeliveryMethodName();
 	}
 	
@@ -57,7 +59,8 @@ public class Deliver {
 			break;
 			case 'B':
 				BoxDimmensions boxDimensions = ksp1.determineBoxDimmensions();
-				parcel = new BoxParcel(deliveryMethod, idDecoded, boxDimensions );
+				parcel = new BoxParcel(deliveryMethod, idDecoded, boxDimensions, 
+						Boolean.valueOf(ksp1.getKisokMapProvided().get("insured")) );
 			created = true;
 			volume = boxDimensions.getVolumeInFeet();
 			break;
@@ -66,11 +69,12 @@ public class Deliver {
 		return created;
 	}
 	
-	private boolean packageValidDelivery() {
+	private boolean packageValidDelivery(DeliveryStatus deliveryStatus) {
 //		int zip1 = Integer.valueOf(ksp1.parseMapForFromAddresses().getAddressFields().get("zip").substring(0, 1));
 //		int zip2 = Integer.valueOf(ksp1.parseMapForToAddresses().getAddressFields().get("zip").substring(0, 1));
 		CalculationBuilder cb = new CalculationBuilder(parcel, weightCalculator, volume);
-		validDelivery = new ValidUSADelivery(parcel, cb.getCost(), cb.getShippingTime(), cb.getWeight(), toAddressDecoded, fromAddressDecoded);
+		validDelivery = new ValidUSADelivery(parcel, cb.getCost(), cb.getShippingTime(), cb.getWeight(), 
+				toAddressDecoded, fromAddressDecoded, deliveryStatus);
 		return true;
 		
 	}
@@ -83,4 +87,7 @@ public class Deliver {
 		return validDelivery;
 	}
 
+
+	
+	
 }

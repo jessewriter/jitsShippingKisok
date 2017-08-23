@@ -4,6 +4,7 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 public class Ground extends DeliveryMethod {
+	private static final long serialVersionUID = 1576971967935084198L;
 	private final double DISCOUNT = 0.95;
 	private double TIMERATEFACTOR = 1.5;
 	private final double COSTRATE =	 1.1;
@@ -39,7 +40,7 @@ public class Ground extends DeliveryMethod {
 		int zoneNumber2 = timeZoneMap.ceilingEntry(fromZipFirstDigit).getValue();
 		timeZone2 = setTimeZone(zoneNumber2);
 		int zoneDiff = Math.abs(zoneNumber1-zoneNumber2);
-		if (zoneDiff==0) {
+		if(zoneDiff==0) {
 			zoneDiff=1;
 			TIMERATEFACTOR=1;
 		}
