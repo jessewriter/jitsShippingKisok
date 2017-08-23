@@ -14,7 +14,6 @@ import com.thirdParty.calibration.MailScale2;
 import jesseboyd.jitsShipping.BoxParcel;
 import jesseboyd.jitsShipping.DemoParcelsForTesting;
 import jesseboyd.jitsShipping.Parcel;
-import jesseboyd.jitsShipping.deliveryMethods.Air;
 
 public class CalculationBuilderTest {
 
@@ -35,13 +34,13 @@ public class CalculationBuilderTest {
 		EasyMock.expect(mockedScale.calculateWeight(bp)).andReturn(6.2).anyTimes();
 		EasyMock.replay(mockedScale);
 		mswc.setMailScaleForMocking(mockedScale);
-		cb = new CalculationBuilder(bp, 2,9, mswc, 0, new Air());
+		cb = new CalculationBuilder(bp, mswc, 0);
 	}
 
 	@Test
 	public void getShippingTime() {
 		double actual = cb.getShippingTime();
-		double expected = 1.75;
+		double expected = 2;
 		assertEquals(expected, actual, .01);
 	}
 	
@@ -57,7 +56,7 @@ public class CalculationBuilderTest {
 	public void getCost() throws Exception {
 	
 		double actual = cb.getCost();
-		double expected = 12.25;
+		double expected = 6.125;
 		assertEquals(expected, actual, .1);
 		
 	}

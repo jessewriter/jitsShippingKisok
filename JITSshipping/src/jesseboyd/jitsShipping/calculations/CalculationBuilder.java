@@ -13,18 +13,18 @@ public class CalculationBuilder {
 	private double volume;
 	private double weight;
 	private String toZone, fromZone;
-	private int zone1;
-	private int zone2;
+//	private int zone1;
+//	private int zone2;
 	
 
-	public CalculationBuilder(Parcel parcel, int zip1, int zip2, WeightCalculator weightCalculator, double volume, DeliveryMethod deliveryMethod) {
+	public CalculationBuilder(Parcel parcel, WeightCalculator weightCalculator, double volume) {
 		//this.parcel = parcel;
-		zone1 = zip1;
-		zone2 = zip2;
+//		zone1 = parcel.getDeliveryMethod().getFromZipFirstDigit();
+//		zone2 = parcel.getDeliveryMethod().getToZipFirstDigit();
 		this.weightCalculator = weightCalculator;
 		this.volume = volume;
-		this.deliveryMethod = deliveryMethod;
-		generateShippingTime();
+		this.deliveryMethod = parcel.getDeliveryMethod();
+		shippingTime = generateShippingTime();
 		getWeight();
 		getCost();
 	}
@@ -36,20 +36,19 @@ public class CalculationBuilder {
 	private double generateShippingTime() {
 		double answer;
 		if(deliveryMethod instanceof Air) {
-			AirTimeCalculator atc = new AirTimeCalculator(zone1, zone2);
+			AirTimeCalculator atc = new AirTimeCalculator(deliveryMethod);
 			answer= atc.calculateTime();
 	}
 		else if(deliveryMethod instanceof Ground) {
 
-			GroundTimeCalculator gtc = new GroundTimeCalculator(zone1, zone2);
-			toZone = gtc.getTimeZone1();
-			fromZone = gtc.getTimeZone2();
+			GroundTimeCalculator gtc = new GroundTimeCalculator(deliveryMethod);
+//			toZone = gtc.getTimeZone1();
+//			fromZone = gtc.getTimeZone2();
 			answer= gtc.calculateTime();
 		}
 		else {
 			throw new IllegalArgumentException("Delivery method must be Air or Ground");
 		}
-		shippingTime = answer;
 		return answer;
 	}
 	
@@ -65,12 +64,12 @@ public class CalculationBuilder {
 	public double getCost() {
 		double answer;
 		if(deliveryMethod instanceof Air) {
-			AirShippingCostCalculator asc = new AirShippingCostCalculator(zoneDiff, weight, volume);
+			AirShippingCostCalculator asc = new AirShippingCostCalculator((Air) deliveryMethod, weight, volume);
 			answer = asc.calcCost();
 		}
 		else if(deliveryMethod instanceof Ground) {
 			GroundShippingCostCalculator gscc = 
-					new GroundShippingCostCalculator(zoneDiff, weight, toZone, fromZone);
+					new GroundShippingCostCalculator((Ground) deliveryMethod, weight);
 			answer = gscc.calcCost();
 		}
 		else {

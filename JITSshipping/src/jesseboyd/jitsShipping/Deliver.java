@@ -1,5 +1,6 @@
 package jesseboyd.jitsShipping;
 
+
 import jesseboyd.jitsShipping.calculations.CalculationBuilder;
 import jesseboyd.jitsShipping.calculations.WeightCalculator;
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
@@ -7,10 +8,10 @@ import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 public class Deliver {
 
 	private Parcel parcel;
-	private ValidDelivery validDelivery;
+	private ValidUSADelivery validDelivery;
 	private WeightCalculator weightCalculator;
-	private Address toAddressDecoded;
-	private Address fromAddressDecoded;
+	private UnitedStatesAddress toAddressDecoded;
+	private UnitedStatesAddress fromAddressDecoded;
 	private long idDecoded;
 	private DeliveryMethod deliveryMethod;
 	private KioskStringParser ksp1;
@@ -20,8 +21,8 @@ public class Deliver {
 	// the map parser and scale are abstract and modifiable
 	public Deliver(KioskStringParser kioskStringParser, WeightCalculator weightCalculator) {
 		ksp1 = kioskStringParser;
-		fromAddressDecoded = ksp1.parseMapForFromAddresses();
-		toAddressDecoded = ksp1.parseMapForToAddresses();
+		fromAddressDecoded = (UnitedStatesAddress) ksp1.parseMapForFromAddresses();
+		toAddressDecoded = (UnitedStatesAddress) ksp1.parseMapForToAddresses();
 		idDecoded = Long.valueOf(ksp1.kisokMapProvided.get("id"));
 		deliveryMethod = ksp1.determineDeliveryMethod();
 		deliveryType = ksp1.getDeliveryType();
@@ -29,8 +30,11 @@ public class Deliver {
 		createParcel();
 	}
 
-	public String presentToCustomerForReview() {
-		return parcel.toString();
+	public String presentToCustomerForReview() throws Exception {
+		if(getValidDelivery()==null) {
+			throw new Exception("final delivery has not been created!");
+		}
+		return getValidDelivery().toString();
 	}
 
 	public String accept() {
@@ -41,13 +45,13 @@ public class Deliver {
 	private boolean createParcel() {
 		boolean created = false;
 		switch (deliveryType){
-			case 'L':parcel = new LetterParcel(deliveryMethod, toAddressDecoded, fromAddressDecoded, idDecoded, ksp1.determineEnvelope());
+			case 'L':parcel = new LetterParcel(deliveryMethod,  idDecoded, ksp1.determineEnvelope());
 			created = true;
 			volume = 1.0;
 			break;
 			case 'B':
 				BoxDimmensions boxDimensions = ksp1.determineBoxDimmensions();
-				parcel = new BoxParcel(deliveryMethod, toAddressDecoded, fromAddressDecoded, idDecoded, boxDimensions );
+				parcel = new BoxParcel(deliveryMethod, idDecoded, boxDimensions );
 			created = true;
 			volume = boxDimensions.getVolumeInFeet();
 			break;
@@ -57,10 +61,10 @@ public class Deliver {
 	}
 	
 	private boolean packageValidDelivery() {
-		int zip1 = Integer.valueOf(ksp1.parseMapForFromAddresses().getAddressFields().get("zip").substring(0, 1));
-		int zip2 = Integer.valueOf(ksp1.parseMapForToAddresses().getAddressFields().get("zip").substring(0, 1));
-		CalculationBuilder cb = new CalculationBuilder(parcel, zip1, zip2, weightCalculator, volume, deliveryMethod);
-		validDelivery = new ValidDelivery(parcel, cb.getCost(), cb.getShippingTime(), cb.getWeight());
+//		int zip1 = Integer.valueOf(ksp1.parseMapForFromAddresses().getAddressFields().get("zip").substring(0, 1));
+//		int zip2 = Integer.valueOf(ksp1.parseMapForToAddresses().getAddressFields().get("zip").substring(0, 1));
+		CalculationBuilder cb = new CalculationBuilder(parcel, weightCalculator, volume);
+		validDelivery = new ValidUSADelivery(parcel, cb.getCost(), cb.getShippingTime(), cb.getWeight(), toAddressDecoded, fromAddressDecoded);
 		return true;
 		
 	}
@@ -69,11 +73,8 @@ public class Deliver {
 		return parcel;
 	}
 	
-	public ValidDelivery getValidDelivery() {
+	public ValidUSADelivery getValidDelivery() {
 		return validDelivery;
 	}
-
-
-	
 
 }

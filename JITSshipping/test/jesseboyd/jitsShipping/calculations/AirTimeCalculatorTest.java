@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import jesseboyd.jitsShipping.calculations.AirTimeCalculator;
+import jesseboyd.jitsShipping.deliveryMethods.Air;
+import jesseboyd.jitsShipping.deliveryMethods.Ground;
 
 public class AirTimeCalculatorTest {
 
@@ -13,8 +15,8 @@ public class AirTimeCalculatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		ac = new AirTimeCalculator(5,5);
-		ac2 = new AirTimeCalculator(4,9);
+		ac = new AirTimeCalculator(new Ground(5,5));
+		ac2 = new AirTimeCalculator(new Air(4,9));
 	}
 
 	@Test
@@ -34,8 +36,8 @@ public class AirTimeCalculatorTest {
 	@Test
 	public void getZoneDifference() throws Exception {
 		ac.calculateTime(); ac2.calculateTime();
-		assertEquals(5, ac2.getZoneDifference());
-		assertEquals(1, ac.getZoneDifference());
+		assertEquals(5, ac2.getZoneDifference(), .01);
+		assertEquals(1, ac.getZoneDifference(), .01);
 	}
 
 }

@@ -1,15 +1,17 @@
 package jesseboyd.jitsShipping.calculations;
 
+import jesseboyd.jitsShipping.deliveryMethods.Ground;
+
 public class GroundShippingCostCalculator extends CostCalculator {
-	private final double COSTFACTOR = 1.1;
-	private double DISCOUNT = .95;
+//	private final double COSTFACTOR = 1.1;
+	private double DISCOUNT = getDeliveryMethod().getDiscount();
 	private String toZone;
 	private String fromZone;
 
-	public GroundShippingCostCalculator(int zoneDiff, double weight, String toZone, String fromZone) {
-		super(zoneDiff, weight);
-		this.toZone = toZone;
-		this.fromZone = fromZone;
+	public GroundShippingCostCalculator(Ground ground, double weight) {
+		super(ground, weight);
+		this.toZone = ground.getTimeZone1();
+		this.fromZone = ground.getTimeZone2();
 	}
 
 	//zd * weight * costFactor * discount
@@ -19,26 +21,26 @@ public class GroundShippingCostCalculator extends CostCalculator {
 	public
 	double calcCost() {
 		isDiscounted();
-	
-		double cost = minZoneDiff() * getWeight() * COSTFACTOR * DISCOUNT;
+		double cost = getZoneDiff() * getWeight() * getDeliveryMethod().getCOSTRATE() * DISCOUNT;
 		return cost;
 	}
 
+	// BRING IN DISCOUNT FROM GROUND
 	public boolean isDiscounted() {
 		boolean appliedDiscount=true;
 		if(toZone != fromZone && ((toZone+fromZone).contains("PT"))) {
-			DISCOUNT=1.0;
+			DISCOUNT=1; // removes discount
 			appliedDiscount=false;
 		}
 		return appliedDiscount;
 	}
 
-	@Override
-	double minZoneDiff() {
-		double minZoneDiff = getZoneDiff();
-		if(minZoneDiff<1) {
-			minZoneDiff =.5;
-		}
-		return minZoneDiff;
-	}
+//	@Override
+//	double minZoneDiff() {
+//		double minZoneDiff = getZoneDiff();
+//		if(minZoneDiff<1) {
+//			minZoneDiff = getDeliveryMethod().getMINZONEDIFFERENCE();
+//		}
+//		return minZoneDiff;
+//	}
 }

@@ -1,29 +1,27 @@
 package jesseboyd.jitsShipping.calculations;
 
+import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 
 public abstract class ZipCodeTimeCalculator {
 
-	double RATEFACTOR;
-	int zoneDifference = -1;
+	double TIMERATEFACTOR;
+	double zoneDifference = -1;
+	protected DeliveryMethod deliveryMethod;
 	 protected int zip1;
 	protected int zip2;
 	
-
-	ZipCodeTimeCalculator(int zip1, int zip2) {
-	this.zip1=zip1;
-	this.zip2=zip2;
-				}
-	
+	public ZipCodeTimeCalculator(DeliveryMethod deliveryMethod) {
+		this.deliveryMethod = deliveryMethod;
+		zip1 = deliveryMethod.getFromZipFirstDigit();
+		zip2 = deliveryMethod.getToZipFirstDigit();
+		TIMERATEFACTOR = deliveryMethod.getTimeRateFactor();
+		this.zoneDifference = deliveryMethod.getZoneDifference();
+	}
 	
 	abstract double calculateTime();
-	
-	abstract int determineZoneDifference();
-	
 
-
-	int getZoneDifference() {
+	double getZoneDifference() {
 		if(zoneDifference== -1) {
-			calculateTime();
 		}
 		return zoneDifference;
 	}
@@ -32,6 +30,7 @@ public abstract class ZipCodeTimeCalculator {
 	public void setZoneDifference(int zoneDifference) {
 		this.zoneDifference = zoneDifference;
 	}
+	
 
 	
 	

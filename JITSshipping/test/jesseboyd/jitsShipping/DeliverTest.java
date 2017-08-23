@@ -8,7 +8,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import jesseboyd.jitsShipping.calculations.MailScaleWeightCalculator;
+import jesseboyd.jitsShipping.calculations.MockWeightCalculatorReturns100;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
 
 public class DeliverTest {
@@ -38,21 +38,23 @@ public class DeliverTest {
 		deliveryRequest.put("fromState", "WA");
 		deliveryRequest.put("fromZip", "98321");
 		deliveryRequest.put("ltype", "fire-proof");
-		kioskDeliver = new Deliver(new KioskSringParserV1(deliveryRequest) , new MailScaleWeightCalculator());
+		kioskDeliver = new Deliver(new KioskSringParserV1(deliveryRequest) , new MockWeightCalculatorReturns100());
 	}
 
 	@Test
-	public void presentToCustomer() {
-		System.out.println(kioskDeliver.presentToCustomerForReview());
-		assertTrue(kioskDeliver.presentToCustomerForReview().contains("Parcel [deliveryMethod=Ground, origAddress=UnitedStatesAddress [ name=Christian \n" + 
-				" street: 1 E 19th Ave\n" + 
-				" city: Seatle \n" + 
-				" state: WA \n" + 
-				" zipCode: 98321 ], destAddress=UnitedStatesAddress [ name=Jesse \n" + 
-				" street: 1110 NE 194th Ave\n" + 
-				" city: Portland \n" + 
-				" state: OR \n" + 
-				" zipCode: 97230 ], id=1]"));
+	public void presentToCustomer() throws Exception {
+		kioskDeliver.accept();
+	System.out.println(kioskDeliver.presentToCustomerForReview());
+		assertTrue(kioskDeliver.presentToCustomerForReview().contains(
+				 "ValidUSADelivery [parcel=Parcel [deliveryMethod=Ground, id=1], cost=6.531, time=1.0, weight=100.0, toAddress=UnitedStatesAddress [ name=Jesse \n" + 
+				 " street: 1110 NE 194th Ave\n" + 
+				 " city: Portland \n" + 
+				 " state: OR \n" + 
+				 " zipCode: 97230 ], fromAddress=UnitedStatesAddress [ name=Christian \n" + 
+				 " street: 1 E 19th Ave\n" + 
+				 " city: Seatle \n" + 
+				 " state: WA \n" + 
+				 " zipCode: 98321 ]]"));
 	}
 	
 	@Test
@@ -65,6 +67,7 @@ public class DeliverTest {
 	public void acceptDeliveryRequestFromUI() throws Exception {
 		kioskDeliver.accept();
 		assertTrue(kioskDeliver.getParcel().getDeliveryMethod() instanceof Ground);
+		System.out.println("id " + kioskDeliver.getParcel().getId());
 		assertEquals(kioskDeliver.getParcel().getId(), 1l);
 	}
 

@@ -6,9 +6,9 @@ import jesseboyd.jitsShipping.envelopes.Envelopes;
 public class LetterParcel extends Parcel {
 	private Envelopes packaging;
 
-	public LetterParcel(DeliveryMethod deliveryMethod, Address address1, Address address2,
+	public LetterParcel(DeliveryMethod deliveryMethod,
 			long id, Envelopes packaging) {
-		super(deliveryMethod, address1, address2, id);
+		super(deliveryMethod, id);
 		this.packaging = packaging;
 	}
 

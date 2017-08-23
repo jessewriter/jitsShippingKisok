@@ -5,21 +5,21 @@ import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 public abstract class Parcel {
 
 	private DeliveryMethod deliveryMethod;
-	private Address origAddress;
-	private Address destAddress;
+//	private Address origAddress;
+//	private Address destAddress;
 	private long id;
 
-	public Parcel(DeliveryMethod deliveryMethod, Address address1, Address address2,
+	public Parcel(DeliveryMethod deliveryMethod,
 			long id) {
 				this.deliveryMethod = deliveryMethod;
-				if(address1.getAddressVector().equals(AddressVector.FROM)) {
-				this.origAddress = address1;
-				this.destAddress = address2;
-				}
-				else {
-					this.origAddress = address2;
-					this.destAddress = address1;
-				}
+//				if(address1.getAddressVector().equals(AddressVector.FROM)) {
+//				this.origAddress = address1;
+//				this.destAddress = address2;
+//				}
+//				else {
+//					this.origAddress = address2;
+//					this.destAddress = address1;
+//				}
 				this.id = id;
 	}
 
@@ -31,13 +31,13 @@ public abstract class Parcel {
 		return deliveryMethod.getClass().getSimpleName();
 	}
 
-	public Address getOrigAddress() {
-		return origAddress;
-	}
-
-	public Address getDestAddress() {
-		return destAddress;
-	}
+//	public Address getOrigAddress() {
+//		return origAddress;
+//	}
+//
+//	public Address getDestAddress() {
+//		return destAddress;
+//	}
 
 	public long getId() {
 		return id;
@@ -45,8 +45,7 @@ public abstract class Parcel {
 	
 	@Override
 	public String toString() {
-		return "Parcel [deliveryMethod=" + getDeliveryMethodName() + ", origAddress=" + origAddress + ", destAddress=" + destAddress
-				+ ", id=" + id + "]";
+		return "Parcel [deliveryMethod=" + getDeliveryMethodName()+  ", id=" + id + "]";
 	}
 
 }

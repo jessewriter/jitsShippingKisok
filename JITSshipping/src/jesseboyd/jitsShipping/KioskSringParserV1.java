@@ -12,11 +12,21 @@ import jesseboyd.jitsShipping.envelopes.Plain;
 import jesseboyd.jitsShipping.envelopes.WeatherProof;
 
 public class KioskSringParserV1 extends KioskStringParser {
+	private UnitedStatesAddress usAddressTo;
+	private UnitedStatesAddress usAddressFrom;
+	private int zip1, zip2;
 	
 	public KioskSringParserV1(Map<String, String> kisokMapProvided) {
 		super(kisokMapProvided);
+		usAddressTo = parseMapForToAddresses();
+		usAddressFrom = parseMapForFromAddresses();
+		zip1 = Integer.valueOf(usAddressTo.getAddressFields().get("zip").substring(0, 1));
+		zip2 = Integer.valueOf(usAddressFrom.getAddressFields().get("zip").substring(0, 1));
 	}
-
+//TODO USE COUNTRY TO CALL ADDRESS FACTORY AND RETURN THE CORRECT ADDRESS?
+	
+	
+	
 	@Override
 	public UnitedStatesAddress parseMapForToAddresses() {
 		Map<String, String> toAddressModified = new HashMap<String, String>();
@@ -26,6 +36,7 @@ public class KioskSringParserV1 extends KioskStringParser {
 			}
 			
 		}
+		
 		return new UnitedStatesAddress(AddressVector.TO,toAddressModified);
 	}
 	
@@ -41,14 +52,17 @@ public class KioskSringParserV1 extends KioskStringParser {
 		return new UnitedStatesAddress(AddressVector.FROM,fromAddressModified);
 	}
 
+	// need first digits of zip and weight
+	// don't have weight, just return a string to be handled later?
 	@Override
 	public DeliveryMethod determineDeliveryMethod() {
+		
 		DeliveryMethod dm;
 		if(kisokMapProvided.get("type").contains("G")) {
-			dm = new Ground();
+			dm = new Ground(zip1, zip2);
 		}
 		else {
-			dm = new Air();
+			dm = new Air(zip1, zip2);
 		}
 		return dm;
 	}

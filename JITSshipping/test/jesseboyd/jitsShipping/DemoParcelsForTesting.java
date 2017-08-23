@@ -20,9 +20,26 @@ public  DemoParcelsForTesting() {
 }
 	
 public static List<Parcel> getParcels(){
+	BoxDimmensions boxDim = new BoxDimmensions(10,10, 10);
+	BoxParcel boxParcel = new BoxParcel(new Air(1,9), 1l, boxDim );
+	BoxParcel boxParcel2 = new BoxParcel(new Ground(3,3), 2l, boxDim );
+	LetterParcel letterParcel = new LetterParcel(new Air(1,9), 3l, new Plain() );
+	LetterParcel letterParcel2 = new LetterParcel(new Ground(1,9), 4l, new WeatherProof() );
+	LetterParcel letterParcel3 = new LetterParcel(new Ground(9,9), 5l, new FireProof() );
+	parcels = new ArrayList<>();
+	parcels.add(boxParcel); 
+	parcels.add(boxParcel2);
+	parcels.add(letterParcel);
+	parcels.add(letterParcel2);
+	parcels.add(letterParcel3);
+	return parcels;
+	// test parcels
+	// 0-BA zone (1,9), 1-BG (3,3), 2-LAP (1,9), 3-LGW no discount (1,9), 4-LGF (9,9) 
+}
+	
+public static List<UnitedStatesAddress> getUsaAddresses (){
 	 Map<String,String> fromAddress = new HashMap<String, String>();
 	Map<String,String> toAddress = new HashMap<String, String>();
-	
 	toAddress.put("name", "Jesse Boyd");
 	toAddress.put("street", "123 main street");
 	toAddress.put("city", "Portland");
@@ -36,27 +53,12 @@ public static List<Parcel> getParcels(){
 	fromAddress.put("zipCode", "61701");
 	 AddressFactory afFrom  = new AddressFactory(AddressCountry.USA, AddressVector.FROM, fromAddress );
 	 AddressFactory afTo= new AddressFactory(AddressCountry.USA, AddressVector.TO, toAddress );
-	 Address unitedStateToAddress = afTo.createAddressBasedOnCountry();
-	 Address unitedStateFromAddress = afFrom.createAddressBasedOnCountry();
-	
-	
-	BoxDimmensions boxDim = new BoxDimmensions(10,10, 10);
-	BoxParcel boxParcel = new BoxParcel(new Air(), unitedStateToAddress, unitedStateFromAddress, 1l, boxDim );
-	BoxParcel boxParcel2 = new BoxParcel(new Ground(), unitedStateFromAddress, unitedStateToAddress, 2l, boxDim );
-	LetterParcel letterParcel = new LetterParcel(new Air(),unitedStateToAddress, unitedStateFromAddress, 3l, new Plain() );
-	LetterParcel letterParcel2 = new LetterParcel(new Ground(),unitedStateToAddress, unitedStateFromAddress, 4l, new WeatherProof() );
-	LetterParcel letterParcel3 = new LetterParcel(new Ground(),unitedStateToAddress, unitedStateFromAddress, 5l, new FireProof() );
-	parcels = new ArrayList<>();
-	parcels.add(boxParcel); 
-	parcels.add(boxParcel2);
-	parcels.add(letterParcel);
-	parcels.add(letterParcel2);
-	parcels.add(letterParcel3);
-	return parcels;
-	
-	// test parcels
-	// 0-BA, 1-BG, 2-LAP, 3-LGW, 4-LGF
+	 UnitedStatesAddress unitedStateToAddress = (UnitedStatesAddress) afTo.createAddressBasedOnCountry();
+	 UnitedStatesAddress unitedStateFromAddress = (UnitedStatesAddress) afFrom.createAddressBasedOnCountry();
+	 List<UnitedStatesAddress> returnAddresses = new ArrayList<>();
+	 returnAddresses.add(unitedStateFromAddress);
+	 returnAddresses.add(unitedStateToAddress);
+	 return returnAddresses;
 }
-	
 	
 }

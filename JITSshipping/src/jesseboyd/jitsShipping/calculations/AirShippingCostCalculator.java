@@ -1,13 +1,14 @@
 package jesseboyd.jitsShipping.calculations;
 
+import jesseboyd.jitsShipping.deliveryMethods.Air;
 
 public class AirShippingCostCalculator extends CostCalculator {
-	private final double RATEFACTOR = 1.75;
+//	private final double RATEFACTOR = 1.75;
 	private double volume;
 	
 	
-	public AirShippingCostCalculator(int zoneDiff, double weight, double volume ) {
-		super(zoneDiff, weight);
+	public AirShippingCostCalculator(Air air, double weight, double volume ) {
+		super(air, weight);
 		setVolume(volume);
 	}
 
@@ -17,7 +18,7 @@ public class AirShippingCostCalculator extends CostCalculator {
 	@Override
 	public
 	double calcCost() {
-		double cost = minZoneDiff() *getWeight() * volume * RATEFACTOR;
+		double cost = getDeliveryMethod().getZoneDifference() *getWeight() * volume * getDeliveryMethod().getCOSTRATE();
 		return cost;
 	}
 
@@ -30,14 +31,14 @@ public class AirShippingCostCalculator extends CostCalculator {
 	}
 
 
-	@Override
-	double minZoneDiff() {
-		int minZoneDiff = getZoneDiff();
-		if(minZoneDiff<1) {
-			minZoneDiff =1;
-		}
-		return minZoneDiff;
-	}
+//	@Override
+//	double minZoneDiff() {
+//		double minZoneDiff = getZoneDiff();
+//		if(minZoneDiff< getDeliveryMethod().getMINZONEDIFFERENCE()) {
+//			minZoneDiff =1;
+//		}
+//		return minZoneDiff;
+//	}
 	
 	
 

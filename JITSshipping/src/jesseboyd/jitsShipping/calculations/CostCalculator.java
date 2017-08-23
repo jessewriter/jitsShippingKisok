@@ -1,26 +1,36 @@
 package jesseboyd.jitsShipping.calculations;
 
+import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 
 public abstract class CostCalculator {
 
-	private int zoneDiff;
+	private double zoneDiff;
 	private double weight;
+	private DeliveryMethod deliveryMethod;
+	private double CONVERTOUNCESTOPOUNDS = 0.0625;
 
 	// common fields zone diff, weight
-	public CostCalculator(int zoneDiff, double weight) {
-		this.zoneDiff = zoneDiff;
-		this.weight = weight;
+	public CostCalculator(DeliveryMethod deliveryMethod, double weight) {
+		this.deliveryMethod = deliveryMethod;
+		this.zoneDiff = deliveryMethod.getZoneDifference();
+		this.weight = weight * CONVERTOUNCESTOPOUNDS ;
 	}
 
 	abstract public double calcCost();
-	abstract double minZoneDiff();
+	//abstract double minZoneDiff();
 
-	public int getZoneDiff() {
+	public double getZoneDiff() {
 		return zoneDiff;
 	}
 
 	public double getWeight() {
 		return weight;
 	}
+
+	public DeliveryMethod getDeliveryMethod() {
+		return deliveryMethod;
+	}
+	
+	
 
 }
