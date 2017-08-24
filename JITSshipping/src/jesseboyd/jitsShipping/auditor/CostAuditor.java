@@ -3,16 +3,14 @@ package jesseboyd.jitsShipping.auditor;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -20,41 +18,41 @@ public class CostAuditor implements Observer{
 // listens to the calculation builder
 	@Override
 	public void update(Observable arg0, Object arg1) {
-System.out.println("update called");
 
-Path path = Paths.get("jitsCostAuditLog.txt");
-try {
-	Files.createFile(path);
-//	Files.write(path, arg1.toString()., StandardCharsets.UTF_8);
+		File directory = new File("output2");
+		if(!directory.exists()) {
+			directory.mkdirs();
+		}
+try ( Writer writer = new BufferedWriter(
+        new FileWriter("output2/jitsCostAudit.txt", true) ) ) {
+	
+writer.write(arg1.toString());
 } catch (IOException e) {
-	// TODO Auto-generated catch block
 	e.printStackTrace();
 }
-
-//try (File file = new File("jitsCostAuditLog.txt");
-//		
-//		Files files = new OutputStreamWriter("jitsCostAuditLog.txt") ;
-//		
-//	try {
-//		System.out.println(arg1);
-//		//fstream
-//		buffy.write(arg1.toString() + "\n");
-//	} catch (IOException e) {
-//		e.printStackTrace();
-//	}
-//	} catch (IOException e1) {
-//		e1.printStackTrace();
-//	}
 }
+
+
 	
 	public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
-		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-	              new FileOutputStream("filename.txt"), "utf-8"))) {
-	   writer.write("something");
+		// will create file if it doesn't exist, see true in file writer
+		try ( Writer writer = new BufferedWriter(new FileWriter( "filename.txt", true)  )  ) {
+	   writer.write("something\n");
 	}
 		
-		    Files.write(Paths.get("file1.bin"), "jesse".getBytes());
+		// file must already exist
+		Path filePath = Paths.get("output/file1.bin");
+		if (!Files.exists(filePath)) {
+		    Files.createDirectory(filePath.getParent()); // creates folder output
+		    Files.createFile(filePath); // creates file file.bin
+		}
+		Files.write(filePath, "jesse \n".getBytes(), StandardOpenOption.APPEND); // the simplest way!
 		
+		
+		// using ternary operators
+		Path filePath2 = Paths.get("ternary.txt");
+		Files.write(filePath2, "hey hey \n".getBytes(), 
+				Files.exists(filePath2) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE);
 	}
 
 }

@@ -1,5 +1,8 @@
 package jesseboyd.jitsShipping.calculations;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Observable;
 
 import jesseboyd.jitsShipping.auditor.CostAuditor;
@@ -83,7 +86,11 @@ public class CalculationBuilder extends Observable {
 		// notify observers of pre-insurance cost
 		this.addObserver(new CostAuditor());
 		this.setChanged();
-		this.notifyObservers(answer);
+		Date date = new Date();
+		String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+		this.notifyObservers(parcel.getId() + " " 
+		+ NumberFormat.getCurrencyInstance().format(answer) + " " + modifiedDate + "\n");
+		////////////////////////////////////////////////////////
 		if(parcel instanceof Insurable && ((Insurable) parcel).isInsured()) {
 		
 			answer = answer * ((Insurable) parcel).getInsuranceFactor();
