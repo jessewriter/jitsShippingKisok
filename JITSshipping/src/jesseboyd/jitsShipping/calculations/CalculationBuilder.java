@@ -21,16 +21,12 @@ public class CalculationBuilder extends Observable {
 	private double weight;
 	private String toZone, fromZone;
 	private Parcel parcel;
-//	private int zone1;
-//	private int zone2;
 	
 
-	public CalculationBuilder(Parcel parcel, WeightCalculator weightCalculator, double volume) {
+	public CalculationBuilder(Parcel parcel, WeightCalculator weightCalculator) {
 		this.parcel = parcel;
-//		zone1 = parcel.getDeliveryMethod().getFromZipFirstDigit();
-//		zone2 = parcel.getDeliveryMethod().getToZipFirstDigit();
 		this.weightCalculator = weightCalculator;
-		this.volume = volume;
+		this.volume = parcel.getVolumeInFeet();
 		this.deliveryMethod = parcel.getDeliveryMethod();
 		shippingTime = generateShippingTime();
 		getWeight();

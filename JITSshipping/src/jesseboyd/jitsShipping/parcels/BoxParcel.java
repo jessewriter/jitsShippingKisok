@@ -15,6 +15,7 @@ public class BoxParcel extends Parcel implements Insurable  {
 		super(eliveryMethod, id);
 		this.boxDimmensions = boxDimmensions;
 		this.isInsured = isInsured;
+		updateVolume(boxDimmensions.getVolumeInFeet());
 	}
 
 	public BoxDimmensions getBoxDimmensions() {
