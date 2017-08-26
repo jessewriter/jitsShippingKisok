@@ -16,6 +16,11 @@ public class LetterParcel extends Parcel {
 	public Envelopes getPackaging() {
 		return packaging;
 	}
+
+	@Override
+	public String toString() {
+		return "LetterParcel [packaging=" + packaging + "]";
+	}
 	
 	
 

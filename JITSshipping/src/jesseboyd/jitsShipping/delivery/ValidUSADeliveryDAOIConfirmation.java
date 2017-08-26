@@ -10,8 +10,8 @@ public class ValidUSADeliveryDAOIConfirmation implements IConfirmation {
 	//	private ValidUSADelivery validUSADelivery;
 	private UnitedStatesAddress originAddress;
 	private UnitedStatesAddress destinationAddress;
-	private String parcelType;
-	private String deliverytype;
+	private String parcelType; // box, letter
+	private String deliverytype; // air, ground, rail
 	private double weight;
 	private double time;
 	private double cost;

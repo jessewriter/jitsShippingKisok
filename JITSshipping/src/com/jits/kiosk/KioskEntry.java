@@ -23,7 +23,7 @@ public class KioskEntry {
 
 		enterFromData(request);
 		enterToData(request);
-		// store package-delivery type (LG|LA|BG|BA)
+		// store package-delivery type (LG|LA|BG|BA) //rail?
 		String packageCode = PackagePanel.getPanel().getPkgType().substring(0,1);
 		String deliveryCode = PackagePanel.getPanel().getDeliveryType().substring(0, 1);
 		request.put("type", packageCode + deliveryCode);
@@ -39,6 +39,8 @@ public class KioskEntry {
 		else if (packageCode.equals("L")) {
 			enterLetterData(request);
 		}
+		//
+		
 		return request;
 	}
 

@@ -8,6 +8,7 @@ import jesseboyd.jitsShipping.address.UnitedStatesAddress;
 import jesseboyd.jitsShipping.deliveryMethods.Air;
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
+import jesseboyd.jitsShipping.deliveryMethods.Rail;
 import jesseboyd.jitsShipping.dimensions.BoxDimmensions;
 import jesseboyd.jitsShipping.envelopes.Envelopes;
 import jesseboyd.jitsShipping.envelopes.FireProof;
@@ -59,10 +60,13 @@ public class KioskSringParserV1 extends KioskStringParser {
 	// don't have weight, just return a string to be handled later?
 	@Override
 	public DeliveryMethod determineDeliveryMethod() {
-		
+		String deliveryMethod = getKisokMapProvided().get("type");
 		DeliveryMethod dm;
-		if(getKisokMapProvided().get("type").contains("G")) {
+		if(deliveryMethod.contains("G")) {
 			dm = new Ground(zip1, zip2);
+		}
+		if(deliveryMethod.contains("R") || deliveryMethod.contains("T")) {
+			dm = new Rail(zip1, zip2);
 		}
 		else {
 			dm = new Air(zip1, zip2);
@@ -73,12 +77,12 @@ public class KioskSringParserV1 extends KioskStringParser {
 	public Envelopes determineEnvelope() {
 		Envelopes e=null;
 		
-		switch( getKisokMapProvided().get("ltype")) {
+		switch( getKisokMapProvided().get("lType")) {
 		case "plain": e = new Plain();
 		break;
-		case "fire-proof": e = new FireProof();
+		case "fire": e = new FireProof();
 		break;
-		case "water-proof": e = new WeatherProof();
+		case "weather": e = new WeatherProof();
 		}
 		 return e;
 	}

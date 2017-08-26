@@ -4,15 +4,17 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Observable;
+import java.util.logging.Logger;
 
 import jesseboyd.jitsShipping.auditor.CostAuditor;
 import jesseboyd.jitsShipping.deliveryMethods.Air;
 import jesseboyd.jitsShipping.deliveryMethods.DeliveryMethod;
 import jesseboyd.jitsShipping.deliveryMethods.Ground;
+import jesseboyd.jitsShipping.deliveryMethods.Rail;
 import jesseboyd.jitsShipping.parcels.Insurable;
 import jesseboyd.jitsShipping.parcels.Parcel;
 
-public class CalculationBuilder extends Observable {
+public class CalculationBuilder extends Observable implements JitsCalculator{
 	private DeliveryMethod deliveryMethod;
 	private double shippingTime;
 	private WeightCalculator weightCalculator;
@@ -21,8 +23,10 @@ public class CalculationBuilder extends Observable {
 	private double weight;
 	private String toZone, fromZone;
 	private Parcel parcel;
-	
+	Logger log = Logger.getLogger("CalculationsBuilder");
 
+	
+	// need a factory that takes with/without weightcalculator
 	public CalculationBuilder(Parcel parcel, WeightCalculator weightCalculator) {
 		this.parcel = parcel;
 		this.weightCalculator = weightCalculator;
@@ -43,15 +47,18 @@ public class CalculationBuilder extends Observable {
 			AirTimeCalculator atc = new AirTimeCalculator(deliveryMethod);
 			answer= atc.calculateTime();
 	}
+		else if(deliveryMethod instanceof Rail) {
+			RailTimeCalculator rtc = new RailTimeCalculator(deliveryMethod);
+			answer= rtc.calculateTime();
+	}
+		
 		else if(deliveryMethod instanceof Ground) {
 
 			GroundTimeCalculator gtc = new GroundTimeCalculator(deliveryMethod);
-//			toZone = gtc.getTimeZone1();
-//			fromZone = gtc.getTimeZone2();
 			answer= gtc.calculateTime();
 		}
 		else {
-			throw new IllegalArgumentException("Delivery method must be Air or Ground");
+			throw new IllegalArgumentException("Delivery method must be Air, Rail or Ground");
 		}
 		return answer;
 	}
@@ -65,11 +72,16 @@ public class CalculationBuilder extends Observable {
 		return weight ;
 	}
 
+	@Override
 	public double getCost() {
 		double answer;
 		if(deliveryMethod instanceof Air) {
 			AirShippingCostCalculator asc = new AirShippingCostCalculator((Air) deliveryMethod, weight, volume);
 			answer = asc.calcCost();
+		}
+		else if(deliveryMethod instanceof Rail) {
+			RailShippingCostCalculator rsc = new RailShippingCostCalculator((Rail) deliveryMethod);
+			answer = rsc.calcCost();
 		}
 		else if(deliveryMethod instanceof Ground) {
 			GroundShippingCostCalculator gscc = 
@@ -88,8 +100,9 @@ public class CalculationBuilder extends Observable {
 		+ NumberFormat.getCurrencyInstance().format(answer) + " " + modifiedDate + "\n");
 		////////////////////////////////////////////////////////
 		if(parcel instanceof Insurable && ((Insurable) parcel).isInsured()) {
-		
-			answer = answer * ((Insurable) parcel).getInsuranceFactor();
+	log.info("cost before insurance " + answer);
+	answer = answer * ((Insurable) parcel).getInsuranceFactor();
+	log.info("cost after insurance " + answer);
 		}
 		return Math.round(answer*100.0)/100.0;  
 		// make sure you use the round that returns an int not long

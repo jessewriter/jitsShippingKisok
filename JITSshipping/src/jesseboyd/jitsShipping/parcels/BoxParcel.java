@@ -32,4 +32,12 @@ public class BoxParcel extends Parcel implements Insurable  {
 		return INSURANCEFACTOR;
 	}
 
+	@Override
+	public String toString() {
+		return "BoxParcel [boxDimmensions=" + boxDimmensions + ", isInsured=" + isInsured + ", INSURANCEFACTOR="
+				+ INSURANCEFACTOR + "]";
+	}
+	
+	
+
 }

@@ -18,17 +18,18 @@ import jesseboyd.jitsShipping.parcels.Parcel;
 
 public class CalculationBuilderTest {
 
-	private CalculationBuilder cb, cb2;
-	private BoxParcel bp;
+	private CalculationBuilder cb, cb2, cb3;
+	private BoxParcel bp, bp2;
 	private LetterParcel letterAir;
-	private MailScaleWeightCalculator mswc, mswc2;
+	private MailScaleWeightCalculator mswc, mswc2, mswc3;
 
 	@Before
 	public void setUp() throws Exception {
 		// test parcels
 		// 0-BA zone (1,9), 1-BG (3,3), 2-LAP (1,9), 3-LGW no discount (1,9), 4-LGF (9,9) 
 		List<Parcel> parcels = DemoParcelsForTesting.getParcels();
-		bp = (BoxParcel) parcels.get(0);
+		bp = (BoxParcel) parcels.get(0); // has insurance
+		bp2 = (BoxParcel) parcels.get(1); // no insurance
 		letterAir = (LetterParcel) parcels.get(2);
 		mswc = new MailScaleWeightCalculator(bp);
 		mswc2 = new MailScaleWeightCalculator(letterAir);
@@ -43,6 +44,7 @@ public class CalculationBuilderTest {
 		mswc.setMailScaleForMocking(mockedScale);
 		mswc2.setMailScaleForMocking(mockedScale);
 		cb = new CalculationBuilder(bp, mswc);
+		cb3 = new CalculationBuilder(bp2, mswc); // no insurance cost
 		cb2 = new CalculationBuilder(letterAir, mswc2);
 	}
 
@@ -63,6 +65,13 @@ public class CalculationBuilderTest {
 	public void getGroundCostWithInsurance() throws Exception {
 		double actual = cb.getCost();
 		double expected = 6.74;
+		assertEquals(expected, actual, .1);
+	}
+	
+	@Test
+	public void getGroundCostWithOutInsurance() throws Exception {
+		double actual = cb3.getCost();
+		double expected = 0.46;
 		assertEquals(expected, actual, .1);
 	}
 

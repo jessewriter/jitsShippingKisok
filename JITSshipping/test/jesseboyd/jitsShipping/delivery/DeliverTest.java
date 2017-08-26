@@ -39,7 +39,7 @@ public class DeliverTest {
 		deliveryRequest.put("fromCity", "Seatle");
 		deliveryRequest.put("fromState", "WA");
 		deliveryRequest.put("fromZip", "98321");
-		deliveryRequest.put("ltype", "fire-proof");
+		deliveryRequest.put("lType", "fire"); // can be plain, fire or weather
 		kioskDeliver = new Deliver(new KioskSringParserV1(deliveryRequest) , new MockWeightCalculatorReturns100());
 	}
 
@@ -48,7 +48,7 @@ public class DeliverTest {
 		kioskDeliver.accept();
 	System.out.println(kioskDeliver.presentToCustomerForReview());
 		assertTrue(kioskDeliver.presentToCustomerForReview().contains(
-				 "ValidUSADelivery [parcel=Parcel [deliveryMethod=Ground, id=1], cost=6.531, time=1.0, weight=100.0, toAddress=UnitedStatesAddress [ name=Jesse \n" + 
+				 "ValidUSADelivery [parcel=LetterParcel [packaging=FireProof Evnelope], cost=6.53, time=1.0, weight=100.0, toAddress=UnitedStatesAddress [ name=Jesse \n" + 
 				 " street: 1110 NE 194th Ave\n" + 
 				 " city: Portland \n" + 
 				 " state: OR \n" + 
